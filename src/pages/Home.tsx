@@ -76,6 +76,7 @@ const Home: React.FC = () => {
                </div>
              </div>
              
+             
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <Briefcase className="w-8 h-8 text-primary-500 mb-3" />
@@ -174,8 +175,8 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-6">Let's Connect</h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            I am currently open to new opportunities in System Semiconductor Engineering.
-            Feel free to reach out if you'd like to discuss RTL Design, UVM Verification, or FPGA Prototyping.
+           시스템 반도체 분야에서 새로운 기회를 찾고 있습니다.
+           RTL 설계, UVM 검증, FPGA 프로토타이핑 관련 논의는 언제든 환영합니다.
           </p>
           
           <div className="flex justify-center gap-6 mb-12">

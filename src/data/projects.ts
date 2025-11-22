@@ -2,12 +2,12 @@ import type { Project, SkillCategory } from '../types';
 import { ProjectCategory } from '../types';
 
 export const PROFILE_DATA = {
-  name: "오고은 (Goeun Oh)",
+  name: "김준회 (Junhoe Kim)",
   role: "System Semiconductor Design & Verification Engineer",
   summary: "RTL 설계부터 UVM 검증까지, 하드웨어의 신뢰성을 책임지는 엔지니어입니다. SystemVerilog를 이용한 효율적인 구조 설계와 철저한 검증 환경 구축에 강점이 있습니다.",
-  email: "qw433812@gmail.com",
-  github: "https://github.com/goeun-oh",
-  education: "아주대학교 (전자공학과)",
+  email: "junhoe99@gmail.com",
+  github: "https://github.com/junhoe99",
+  education: "단국대학교 (전자전기공학부)",
   location: "경기도 용인시",
   resumeUrl: "/resume.pdf" // Placeholder
 };
@@ -19,11 +19,11 @@ export const SKILLS_DATA: SkillCategory[] = [
   },
   {
     categoryName: "Verification",
-    items: ["UVM", "OVM", "SystemC", "Coverage Driven Verification", "Assertion (SVA)"]
+    items: ["UVM", "OVM",  "Coverage Driven Verification", "Assertion (SVA)"]
   },
   {
     categoryName: "Tools & FPGA",
-    items: ["Vivado", "Quartus", "VCS", "Verdi", "ModelSim", "Xilinx Zynq", "Intel FPGA"]
+    items: ["Vivado", "Quartus", "VCS", "Verdi", "Xilinx FPGA"]
   },
   {
     categoryName: "Protocols",
