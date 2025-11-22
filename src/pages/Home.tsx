@@ -58,26 +58,7 @@ const Home: React.FC = () => {
              <h2 className="text-3xl font-bold text-gray-900 dark:text-white inline-block border-b-4 border-primary-500 pb-2">About Me</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-             <div className="space-y-6">
-               <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                 Designing & Verifying <br />
-                 <span className="text-primary-600">The Heart of Technology</span>
-               </h3>
-               <div className="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed">
-                  <p>
-                    반도체 설계는 단순한 코딩이 아니라, 물리적 제약과 타이밍을 고려하는 예술입니다. 
-                    저는 <strong>SystemVerilog를 활용한 RTL 설계</strong>를 통해 아이디어를 실제 하드웨어로 구현하는 과정을 즐깁니다.
-                  </p>
-                  <p>
-                    또한, 설계만큼 중요한 것이 <strong>검증(Verification)</strong>이라고 믿습니다. 
-                    <strong>UVM 기반의 체계적인 테스트벤치</strong>를 구축하여 DUT의 모든 Corner Case를 검증해내는 끈기를 가지고 있습니다.
-                  </p>
-               </div>
-             </div>
-             
-             
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <Briefcase className="w-8 h-8 text-primary-500 mb-3" />
                    <h4 className="font-bold text-gray-900 dark:text-white mb-1">Core Focus</h4>
@@ -85,7 +66,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <GraduationCap className="w-8 h-8 text-primary-500 mb-3" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">Education</h4>
+                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">Educational Background</h4>
                    <p className="text-sm text-gray-600 dark:text-gray-400">{PROFILE_DATA.education}</p>
                 </div>
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
@@ -99,7 +80,6 @@ const Home: React.FC = () => {
                    <p className="text-sm text-gray-600 dark:text-gray-400">{PROFILE_DATA.email}</p>
                 </div>
              </div>
-          </div>
         </div>
       </section>
 
@@ -112,19 +92,33 @@ const Home: React.FC = () => {
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {SKILLS_DATA.map((category) => (
-                <div key={category.categoryName} className="bg-white dark:bg-dark-card rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
-                  <h3 className="text-lg font-bold text-primary-600 dark:text-primary-400 mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                    {category.categoryName}
-                  </h3>
-                  <ul className="space-y-2">
-                    {category.items.map((skill) => (
-                      <li key={skill} className="flex items-center text-gray-700 dark:text-gray-300 text-sm">
-                        <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2"></span>
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
+              {SKILLS_DATA.map((category, index) => (
+                <div 
+                  key={category.categoryName} 
+                  className="group relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-card dark:to-gray-800/50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:-translate-y-2 overflow-hidden"
+                >
+                  {/* Decorative gradient blob */}
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-primary-400/20 to-primary-600/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                  
+                  {/* Category number badge */}
+                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                    <span className="text-xs font-bold text-primary-600 dark:text-primary-400">{index + 1}</span>
+                  </div>
+                  
+                  <div className="relative">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-500 dark:from-primary-400 dark:to-primary-300 bg-clip-text text-transparent mb-6 flex items-center">
+                      <span className="w-1 h-6 bg-gradient-to-b from-primary-500 to-primary-600 rounded-full mr-3"></span>
+                      {category.categoryName}
+                    </h3>
+                    <ul className="space-y-3">
+                      {category.items.map((skill) => (
+                        <li key={skill} className="flex items-start text-gray-700 dark:text-gray-300 text-sm group/item">
+                          <span className="mt-1.5 w-2 h-2 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full mr-3 flex-shrink-0 group-hover/item:scale-125 transition-transform"></span>
+                          <span className="group-hover/item:text-gray-900 dark:group-hover/item:text-white transition-colors">{skill}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               ))}
            </div>

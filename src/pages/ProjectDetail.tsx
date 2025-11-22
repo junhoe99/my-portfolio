@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Users, ExternalLink, Github, FileText, Youtube } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/projects';
+import type { TroubleshootingStep } from '../types';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,6 +34,8 @@ const ProjectDetail: React.FC = () => {
       default: return <ExternalLink className="w-4 h-4" />;
     }
   };
+
+  const isRTLProject = project.tags.includes('RTL Design');
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg pt-20 pb-20">
@@ -67,15 +70,35 @@ const ProjectDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Thumbnail/Media Area */}
-        <div className="rounded-2xl overflow-hidden shadow-2xl shadow-gray-200 dark:shadow-none border border-gray-100 dark:border-gray-800 mb-12 bg-gray-100 dark:bg-gray-800 aspect-video">
-           <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover" />
-        </div>
-
         {/* Main Content */}
         <div className="space-y-16">
           
-          {/* 1. Background / Objective */}
+          {/* Project Overview - RTL Design만 표시 */}
+          {isRTLProject && (
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                Project Overview
+              </h3>
+              
+              {/* Demo GIF/Video */}
+              {project.demoGif && (
+                <div className="rounded-2xl overflow-hidden shadow-2xl shadow-gray-200 dark:shadow-none border border-gray-100 dark:border-gray-800 mb-6 bg-gray-100 dark:bg-gray-800">
+                  <img src={project.demoGif} alt={`${project.title} demo`} className="w-full h-auto" />
+                </div>
+              )}
+              
+              {/* Overview Text */}
+              {project.overview && (
+                <div className="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10 p-6 rounded-xl border border-primary-100 dark:border-primary-900/20">
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    {project.overview}
+                  </p>
+                </div>
+              )}
+            </section>
+          )}
+
+          {/* Background & Objective */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
               Background & Objective
@@ -85,7 +108,7 @@ const ProjectDetail: React.FC = () => {
             </p>
           </section>
 
-          {/* 2. Role / Contribution */}
+          {/* My Role */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
               My Role
@@ -102,7 +125,7 @@ const ProjectDetail: React.FC = () => {
             </div>
           </section>
 
-          {/* 3. Results */}
+          {/* Results */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
               Results
@@ -112,19 +135,95 @@ const ProjectDetail: React.FC = () => {
             </p>
           </section>
 
-          {/* 4. Troubleshooting */}
+          {/* Troubleshooting */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-red-500 pl-4">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-red-500 pl-4">
               Troubleshooting
             </h3>
-            <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-xl border border-red-100 dark:border-red-900/20">
-              <h4 className="font-bold text-red-800 dark:text-red-300 mb-2 flex items-center">
-                Challenge & Solution
-              </h4>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                {project.troubleshooting}
-              </p>
-            </div>
+            
+            {/* Check if troubleshooting is structured or plain text */}
+            {typeof project.troubleshooting === 'string' ? (
+              // Legacy format - plain text
+              <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-xl border border-red-100 dark:border-red-900/20">
+                <h4 className="font-bold text-red-800 dark:text-red-300 mb-2 flex items-center">
+                  Challenge & Solution
+                </h4>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                  {project.troubleshooting}
+                </p>
+              </div>
+            ) : (
+              // New structured format
+              <div className="space-y-8">
+                {project.troubleshooting.map((step, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-900/10 dark:to-orange-900/10 p-8 rounded-2xl border border-red-200 dark:border-red-900/20 shadow-lg">
+                    {/* Step number badge */}
+                    <div className="flex items-center mb-6">
+                      <div className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-3">
+                        {idx + 1}
+                      </div>
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Issue #{idx + 1}
+                      </h4>
+                    </div>
+
+                    {/* 1. Problem */}
+                    <div className="mb-6">
+                      <div className="flex items-center mb-3">
+                        <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                        <h5 className="font-bold text-red-800 dark:text-red-300 text-lg">문제 상황</h5>
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4">
+                        {step.problem}
+                      </p>
+                      {step.problemImage && (
+                        <div className="ml-4 rounded-xl overflow-hidden border border-red-200 dark:border-red-800 shadow-md">
+                          <img src={step.problemImage} alt="Problem visualization" className="w-full h-auto" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 2. Analysis */}
+                    <div className="mb-6">
+                      <div className="flex items-center mb-3">
+                        <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                        <h5 className="font-bold text-orange-800 dark:text-orange-300 text-lg">원인 분석</h5>
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-white/50 dark:bg-gray-800/30 p-4 rounded-lg">
+                        {step.analysis}
+                      </p>
+                    </div>
+
+                    {/* 3. Solution */}
+                    <div className="mb-6">
+                      <div className="flex items-center mb-3">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                        <h5 className="font-bold text-blue-800 dark:text-blue-300 text-lg">해결 방법</h5>
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                        {step.solution}
+                      </p>
+                    </div>
+
+                    {/* 4. Result */}
+                    <div>
+                      <div className="flex items-center mb-3">
+                        <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <h5 className="font-bold text-green-800 dark:text-green-300 text-lg">적용 결과</h5>
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                        {step.result}
+                      </p>
+                      {step.resultImage && (
+                        <div className="ml-4 rounded-xl overflow-hidden border border-green-200 dark:border-green-800 shadow-md">
+                          <img src={step.resultImage} alt="Result visualization" className="w-full h-auto" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           {/* Tech Stack */}
@@ -141,24 +240,57 @@ const ProjectDetail: React.FC = () => {
             </div>
           </section>
 
-          {/* 5. Links */}
-          <section className="border-t border-gray-200 dark:border-gray-700 pt-8">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Related Materials</h3>
-            <div className="flex flex-wrap gap-4">
-              {project.links.map((link, idx) => (
-                <a
-                  key={idx}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-6 py-3 rounded-lg bg-white dark:bg-dark-card border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all shadow-sm hover:shadow-md"
-                >
-                  <span className="mr-2">{getLinkIcon(link.type)}</span>
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </section>
+          {/* 관련문서 - RTL Design만 표시 */}
+          {isRTLProject && project.links.some(link => link.type === 'doc') && (
+            <section className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                관련 문서
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {project.links.filter(link => link.type === 'doc').map((link, idx) => (
+                  <a
+                    key={idx}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-card dark:to-gray-800 border border-gray-200 dark:border-gray-600 hover:border-primary-500 dark:hover:border-primary-500 transition-all shadow-sm hover:shadow-lg"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                      <FileText className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        {link.label}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">PDF 문서</p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-colors flex-shrink-0 ml-2" />
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Related Materials - 기타 링크들 */}
+          {project.links.some(link => link.type !== 'doc') && (
+            <section className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Related Materials</h3>
+              <div className="flex flex-wrap gap-4">
+                {project.links.filter(link => link.type !== 'doc').map((link, idx) => (
+                  <a
+                    key={idx}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-6 py-3 rounded-lg bg-white dark:bg-dark-card border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all shadow-sm hover:shadow-md"
+                  >
+                    <span className="mr-2">{getLinkIcon(link.type)}</span>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>
