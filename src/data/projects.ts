@@ -19,15 +19,15 @@ export const SKILLS_DATA: SkillCategory[] = [
   },
   {
     categoryName: "Verification",
-    items: ["UVM", "OVM",  "Coverage Driven Verification", "Assertion (SVA)"]
+    items: ["UVM", "Coverage Driven Verification(CDV)", "Assertion (SVA)"]
   },
   {
-    categoryName: "Tools & FPGA",
-    items: ["Vivado", "Quartus", "VCS", "Verdi", "Xilinx FPGA"]
+    categoryName: "EDA Tools & FPGA",
+    items: ["Verdi","Vivado", "VCS", "Xilinx FPGA"]
   },
   {
     categoryName: "Protocols",
-    items: ["AXI4", "AXI4-Lite", "AXI-Stream", "APB", "I2C", "SPI", "UART"]
+    items: ["AXI4-Lite", "APB", "I2C", "SPI", "UART"]
   }
 ];
 
@@ -40,6 +40,7 @@ export const PROJECTS_DATA: Project[] = [
     tags: [ProjectCategory.RTL_DESIGN],
     thumbnail: "https://picsum.photos/800/600?random=1",
     summary: "두 개의 FPGA 보드를 I2C 프로토콜로 연결하여 실시간 상호작용이 가능한 탁구 게임을 RTL로 구현하였습니다.",
+    featured: true, // 주요 프로젝트로 표시
     background: "단일 FPGA 내의 설계가 아닌, 보드 간 통신 인터페이스를 직접 설계하고 검증하는 경험이 필요했습니다. I2C 프로토콜의 Master-Slave 동작을 이해하고, 저속 직렬 통신 환경에서의 데이터 동기화 문제를 해결하고자 프로젝트를 기획했습니다.",
     role: [
       "I2C Master/Slave Controller RTL 설계 (Verilog)",

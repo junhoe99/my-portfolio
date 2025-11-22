@@ -28,6 +28,7 @@ export interface Project {
   tags: ProjectCategory[];
   thumbnail: string; // Path to image
   summary: string; // Short description for card
+  featured?: boolean; // Optional: Mark as featured/main project
   
   // Detail Section Fields
   demoGif?: string; // Optional: Demo GIF for RTL projects

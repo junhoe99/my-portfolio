@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { Download, Github, Mail, MapPin, Briefcase, GraduationCap } from 'lucide-react';
+import { Github, Mail, MapPin, Briefcase, GraduationCap } from 'lucide-react';
 import { PROFILE_DATA, PROJECTS_DATA, SKILLS_DATA } from '../data/projects';
 import ProjectCard from '../components/ProjectCard';
 import { ProjectCategory } from '../types';
 
 const Home: React.FC = () => {
   const [filter, setFilter] = useState<string>('All');
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState<boolean>(false);
 
   const uniqueTags = ['All', ...Array.from(new Set(PROJECTS_DATA.flatMap(p => p.tags)))];
   
-  const filteredProjects = filter === 'All' 
+  let filteredProjects = filter === 'All' 
     ? PROJECTS_DATA 
     : PROJECTS_DATA.filter(p => p.tags.includes(filter as ProjectCategory));
+  
+  // Apply featured filter if enabled
+  if (showFeaturedOnly) {
+    filteredProjects = filteredProjects.filter(p => p.featured);
+  }
 
   return (
     <main className="flex flex-col w-full">
@@ -29,24 +35,6 @@ const Home: React.FC = () => {
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
               {PROFILE_DATA.summary}
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a 
-                href="#projects" 
-                className="px-8 py-3 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-semibold shadow-lg shadow-primary-500/30 transition-all transform hover:-translate-y-0.5"
-              >
-                View Projects
-              </a>
-              <a 
-                href={PROFILE_DATA.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-3 rounded-lg bg-white dark:bg-dark-card border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Download Resume
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -61,17 +49,17 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <Briefcase className="w-8 h-8 text-primary-500 mb-3" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">Core Focus</h4>
+                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">관심분야</h4>
                    <p className="text-sm text-gray-600 dark:text-gray-400">RTL Design & Verification</p>
                 </div>
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <GraduationCap className="w-8 h-8 text-primary-500 mb-3" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">Educational Background</h4>
+                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">학력사항</h4>
                    <p className="text-sm text-gray-600 dark:text-gray-400">{PROFILE_DATA.education}</p>
                 </div>
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
                    <MapPin className="w-8 h-8 text-primary-500 mb-3" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">Location</h4>
+                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">주소</h4>
                    <p className="text-sm text-gray-600 dark:text-gray-400">{PROFILE_DATA.location}</p>
                 </div>
                 <div className="p-6 bg-gray-50 dark:bg-dark-card rounded-xl border border-gray-100 dark:border-gray-700">
@@ -134,6 +122,7 @@ const Home: React.FC = () => {
 
           {/* Filters */}
           <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {/* Category Filters */}
             {uniqueTags.map(tag => (
               <button
                 key={tag}
@@ -147,6 +136,18 @@ const Home: React.FC = () => {
                 {tag}
               </button>
             ))}
+            
+            {/* Featured Projects Toggle - Right aligned */}
+            <button
+              onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
+              className={`px-3 py-2 rounded-full text-xs font-medium transition-all border ${
+                showFeaturedOnly
+                  ? 'bg-yellow-500 text-white border-yellow-500 shadow-lg shadow-yellow-500/30'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-yellow-400 dark:hover:border-yellow-400'
+              }`}
+            >
+              ⭐ 주요 프로젝트
+            </button>
           </div>
 
           {/* Grid */}
