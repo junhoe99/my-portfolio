@@ -9,7 +9,21 @@ export const PROFILE_DATA = {
   github: "https://github.com/junhoe99",
   education: "단국대학교 (전자전기공학부)",
   location: "경기도 용인시 수지구",
-  resumeUrl: "/resume.pdf" // Placeholder
+  resumeUrl: "/resume.pdf", // Placeholder
+  awards: [
+    {
+      title: "미래형 자동차 캡스톤 디자인 경진대회",
+      organization: "한국생산제조학회",
+      date: "2024.11",
+      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 우수상 수상"
+    },
+    {
+      title: "캡스톤 디자인 경진대회 최우수상",
+      organization: "단국대학교",
+      date: "2024.12",
+      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
+    }
+  ]
 };
 
 export const SKILLS_DATA: SkillCategory[] = [
@@ -125,6 +139,38 @@ export const PROJECTS_DATA: Project[] = [
     techStack: ["Verilog", "ModelSim", "Cyclone IV"],
     links: [
       { type: 'github', url: 'https://github.com', label: 'GitHub' }
+    ]
+  },
+  {
+    id: "line-buffer-controller",
+    title: "VGA Line Buffer Controller",
+    period: "2024.11 ~ 2024.12",
+    teamSize: "Solo",
+    tags: [ProjectCategory.RTL_DESIGN],
+    thumbnail: "https://picsum.photos/800/600?random=4",
+    summary: "영상 처리를 위한 효율적인 Line Buffer 제어 모듈을 설계하여 메모리 사용량을 최소화하면서 실시간 스트리밍 처리를 구현했습니다.",
+    featured: false,
+    background: "실시간 영상 처리 시스템에서 전체 프레임을 저장하는 것은 메모리 자원 낭비가 심합니다. 3x3, 5x5 등의 커널 기반 필터링은 몇 줄의 데이터만 필요하므로, Line Buffer 방식으로 메모리 효율성을 극대화하고자 했습니다.",
+    role: [
+      "Line Buffer FIFO 구조 설계 및 구현",
+      "Read/Write Pointer 관리 로직 설계",
+      "다양한 커널 크기(3x3, 5x5) 지원 가능한 파라미터화 설계",
+      "AXI-Stream 인터페이스 연동"
+    ],
+    results: "640x480 영상 처리 시 기존 Frame Buffer 대비 메모리 사용량을 95% 절감했습니다. 최대 60fps 처리 속도를 달성하며 타이밍 제약을 만족했습니다.",
+    troubleshooting: [
+      {
+        problem: "Line Buffer의 Read/Write 포인터가 충돌하여 데이터 무결성이 깨지는 문제가 발생했습니다.",
+        problemImage: "",
+        analysis: "Write와 Read 동작이 동시에 발생할 때 포인터 업데이트 타이밍이 맞지 않아 같은 주소를 참조하거나 오래된 데이터를 읽는 현상이 발견되었습니다.",
+        solution: "Gray Code 기반 포인터 관리를 도입하여 Clock Domain Crossing 문제를 해결하고, Valid/Ready 핸드셰이크 프로토콜로 데이터 흐름을 제어했습니다.",
+        result: "모든 테스트 케이스에서 데이터 무결성 100% 유지를 달성했으며, 연속 스트리밍 처리에서도 안정적인 동작을 확인했습니다.",
+        resultImage: ""
+      }
+    ],
+    techStack: ["Verilog", "Vivado", "AXI-Stream"],
+    links: [
+      { type: 'github', url: 'https://github.com', label: 'Source Code' }
     ]
   }
 ];

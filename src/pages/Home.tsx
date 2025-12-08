@@ -83,37 +83,116 @@ const Home: React.FC = () => {
       <section id="about" className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-dark-bg dark:via-[#1a2332] dark:to-dark-bg reveal-on-scroll relative overflow-hidden">
         {/* Glass layer overlay */}
         <div className="absolute inset-0 bg-white/30 dark:bg-white/5 backdrop-blur-3xl"></div>
-        <div className="max-w-7ㄲxl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
              <h2 className="text-3xl font-bold text-gray-900 dark:text-white inline-block border-b-4 border-primary-500 pb-2">About Me</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                <div className="group p-6 bg-white/30 dark:bg-white/5 backdrop-blur-2xl rounded-2xl border-2 border-white/50 dark:border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.5)] transition-all duration-500 hover:-translate-y-2 hover:bg-white/40 dark:hover:bg-white/10">
-                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                   <Briefcase className="w-8 h-8 text-primary-500 mb-3 relative z-10" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1 relative z-10">관심분야</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400 relative z-10">RTL Design & Verification</p>
+          {/* Profile Section */}
+          <div className="max-w-4xl mx-auto mb-20">
+            <div className="bg-white/40 dark:bg-white/5 backdrop-blur-2xl rounded-3xl border-2 border-white/50 dark:border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] overflow-hidden">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 p-6 md:p-8">
+                {/* Profile Image */}
+                <div className="flex-shrink-0">
+                  <div className="relative w-40 h-52 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 p-1 shadow-lg">
+                    <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
+                      {/* Profile Image */}
+                      <img 
+                        src="/profile.jpg" 
+                        alt={PROFILE_DATA.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="group p-6 bg-white/30 dark:bg-white/5 backdrop-blur-2xl rounded-2xl border-2 border-white/50 dark:border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.5)] transition-all duration-500 hover:-translate-y-2 hover:bg-white/40 dark:hover:bg-white/10">
-                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                   <GraduationCap className="w-8 h-8 text-primary-500 mb-3 relative z-10" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1 relative z-10">학력사항</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400 relative z-10">{PROFILE_DATA.education}</p>
+
+                {/* Profile Info */}
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">인적사항</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3 group">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Briefcase className="w-4 h-4 text-primary-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">관심분야</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">RTL Design & Verification</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3 group">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <GraduationCap className="w-4 h-4 text-primary-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">학력사항</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{PROFILE_DATA.education}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3 group">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <MapPin className="w-4 h-4 text-primary-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">주소</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{PROFILE_DATA.location}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3 group">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Mail className="w-4 h-4 text-primary-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Contact</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{PROFILE_DATA.email}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="group p-6 bg-white/30 dark:bg-white/5 backdrop-blur-2xl rounded-2xl border-2 border-white/50 dark:border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.5)] transition-all duration-500 hover:-translate-y-2 hover:bg-white/40 dark:hover:bg-white/10">
-                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                   <MapPin className="w-8 h-8 text-primary-500 mb-3 relative z-10" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1 relative z-10">주소</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400 relative z-10">{PROFILE_DATA.location}</p>
-                </div>
-                <div className="group p-6 bg-white/30 dark:bg-white/5 backdrop-blur-2xl rounded-2xl border-2 border-white/50 dark:border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.5)] transition-all duration-500 hover:-translate-y-2 hover:bg-white/40 dark:hover:bg-white/10">
-                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                   <Mail className="w-8 h-8 text-primary-500 mb-3 relative z-10" />
-                   <h4 className="font-bold text-gray-900 dark:text-white mb-1 relative z-10">Contact</h4>
-                   <p className="text-sm text-gray-600 dark:text-gray-400 relative z-10">{PROFILE_DATA.email}</p>
-                </div>
-             </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Awards Section */}
+          {PROFILE_DATA.awards && PROFILE_DATA.awards.length > 0 && (
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="text-2xl">🏆</div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Awards & Achievements</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {PROFILE_DATA.awards.map((award, index) => (
+                  <div 
+                    key={index}
+                    className="group p-5 bg-gradient-to-br from-yellow-50/80 via-white/80 to-orange-50/80 dark:from-yellow-900/10 dark:via-white/5 dark:to-orange-900/10 backdrop-blur-2xl rounded-2xl border-2 border-yellow-400/30 dark:border-yellow-600/30 shadow-[0_8px_32px_0_rgba(251,191,36,0.2)] hover:shadow-[0_8px_32px_0_rgba(251,191,36,0.4)] transition-all duration-500 hover:-translate-y-2 relative overflow-hidden"
+                  >
+                    {/* Decorative shine */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-2xl"></div>
+                    
+                    <div className="relative">
+                      <div className="flex items-start justify-between mb-2">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700">
+                          {award.date}
+                        </span>
+                        <div className="text-yellow-500 dark:text-yellow-400 text-xl">🏆</div>
+                      </div>
+                      
+                      <h4 className="font-bold text-base text-gray-900 dark:text-white mb-1.5 leading-tight">{award.title}</h4>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">{award.organization}</p>
+                      
+                      {award.description && (
+                        <div className="mt-2.5 pt-2.5 border-t border-yellow-200/50 dark:border-yellow-700/30">
+                          <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">{award.description}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

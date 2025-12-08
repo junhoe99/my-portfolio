@@ -45,3 +45,10 @@ export interface SkillCategory {
   categoryName: string;
   items: string[];
 }
+
+export interface Award {
+  title: string;
+  organization: string;
+  date: string;
+  description?: string;
+}
