@@ -46,7 +46,6 @@ const ProjectDetail: React.FC = () => {
 
   const isRTLProject = project.tags.includes('RTL Design');
   const isTeamProject = project.teamSize.includes('Team');
-  const isPersonalProject = !isTeamProject;
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg pt-20 pb-20">
