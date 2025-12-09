@@ -4,9 +4,13 @@ import { ArrowLeft, Calendar, Users, ExternalLink, Github, FileText, Youtube } f
 import { PROJECTS_DATA } from '../data/projects';
 import PDFViewer from '../components/PDFViewer';
 
-// Simple markdown to HTML converter for bold text
+// Enhanced markdown to HTML converter for bold text and line breaks
 const renderMarkdownText = (text: string) => {
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n\s*/g, '<br/>')
+    .replace(/✅/g, '<br/>✅')
+    .replace(/^<br\/>/g, ''); // Remove leading <br/> if it exists
 };
 
 const ProjectDetail: React.FC = () => {
@@ -41,6 +45,8 @@ const ProjectDetail: React.FC = () => {
   };
 
   const isRTLProject = project.tags.includes('RTL Design');
+  const isTeamProject = project.teamSize.includes('Team');
+  const isPersonalProject = !isTeamProject;
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg pt-20 pb-20">
@@ -78,12 +84,14 @@ const ProjectDetail: React.FC = () => {
         {/* Main Content */}
         <div className="space-y-16">
           
-          {/* Project Overview - RTL Design만 표시 */}
-          {isRTLProject && (
-            <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
-                Project Overview
-              </h3>
+          {/* Team Project Layout (기존 Dice Game 양식) */}
+          {isTeamProject ? (
+            <>
+              {/* Project Overview - 팀 프로젝트용 */}
+              <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                  Project Overview
+                </h3>
               
               {/* Demo GIF/Video - Single Demo */}
               {project.demoGif && !project.gallery && (
@@ -148,17 +156,6 @@ const ProjectDetail: React.FC = () => {
                 </div>
               )}
             </section>
-          )}
-
-          {/* Background & Objective */}
-          <section className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
-              Background & Objective
-            </h3>
-            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-              {project.background}
-            </p>
-          </section>
 
           {/* My Role */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
@@ -393,6 +390,237 @@ const ProjectDetail: React.FC = () => {
                 ))}
               </div>
             </section>
+          )}
+          </>
+          ) : (
+          /* Personal Project Layout (개인 프로젝트 새 양식) */
+          <>
+            {/* 1. Project Overview - 최종 결과물 */}
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                Project Overview
+              </h3>
+              
+              {/* Final Result Image */}
+              <div className="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10 p-8 rounded-2xl border border-primary-100 dark:border-primary-900/20 mb-6">
+                <div className="text-center mb-6">
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">최종 결과물</h4>
+                  {project.gallery && project.gallery[2] && (
+                    <div className="rounded-xl overflow-hidden shadow-lg inline-block">
+                      <img src={project.gallery[2].url} alt="Final Result" className="max-w-full h-auto" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 px-4 pb-4">
+                        {project.gallery[2].caption}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Project Summary */}
+                {project.overview && (
+                  <div className="mt-6">
+                    <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                      {project.overview}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* 2. System Specification */}
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                System Specification
+              </h3>
+              
+              {/* Horizontal Layout - Single Wide Section */}
+              <div className="bg-white dark:bg-dark-card p-8 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                
+                {/* Block Diagram Section */}
+                <div className="mb-8">
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                    System Architecture
+                  </h4>
+                  {project.gallery && project.gallery[0] && (
+                    <div className="flex justify-center">
+                      <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md max-w-4xl">
+                        <img src={project.gallery[0].url} alt="System Architecture" className="w-full h-auto" />
+                        <div className="bg-gray-50 dark:bg-gray-700 px-4 py-2 text-center">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{project.gallery[0].caption}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Specifications Table Section */}
+                <div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                    Technical Specifications
+                  </h4>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="space-y-2">
+                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Technology Stack</h5>
+                      <p className="text-gray-900 dark:text-white font-medium">{project.techStack.join(', ')}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Project Type</h5>
+                      <p className="text-gray-900 dark:text-white font-medium">{project.tags.join(', ')}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Duration</h5>
+                      <p className="text-gray-900 dark:text-white font-medium">{project.period}</p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Key Results</h5>
+                      <p className="text-gray-900 dark:text-white font-medium text-sm leading-relaxed">{project.results}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Implementation Details */}
+              <div className="mt-8">
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Implementation Details</h4>
+                <div className="space-y-4">
+                  {project.role && (project.role as any[]).map((roleItem, idx) => (
+                    <div key={idx} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+                      <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                          {idx + 1}
+                        </span>
+                        {roleItem.title}
+                      </h5>
+                      {roleItem.description && (
+                        <div 
+                          className="text-gray-600 dark:text-gray-400 leading-relaxed"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(roleItem.description) 
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* 3. Trouble Shooting */}
+            {project.troubleshooting && Array.isArray(project.troubleshooting) && (
+              <section className="animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                  Trouble Shooting
+                </h3>
+                
+                <div className="space-y-8">
+                  {project.troubleshooting.map((issue: any, idx: number) => (
+                    <div key={idx} className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/10 dark:to-red-900/10 p-8 rounded-2xl border border-orange-200 dark:border-orange-900/20 shadow-lg">
+                      {/* Issue Header */}
+                      <div className="flex items-center mb-6">
+                        <div className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">
+                          {idx + 1}
+                        </div>
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">
+                          Technical Challenge #{idx + 1}
+                        </h4>
+                      </div>
+
+                      <div className="grid lg:grid-cols-2 gap-8">
+                        {/* Problem & Solution */}
+                        <div className="space-y-6">
+                          {/* Problem */}
+                          <div>
+                            <h5 className="font-bold text-red-600 dark:text-red-400 mb-3 flex items-center">
+                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                              Problem
+                            </h5>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                              {issue.problem}
+                            </p>
+                          </div>
+
+                          {/* Analysis */}
+                          <div>
+                            <h5 className="font-bold text-yellow-600 dark:text-yellow-400 mb-3 flex items-center">
+                              <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                              Analysis
+                            </h5>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                              {issue.analysis}
+                            </p>
+                          </div>
+
+                          {/* Solution */}
+                          <div>
+                            <h5 className="font-bold text-green-600 dark:text-green-400 mb-3 flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Solution
+                            </h5>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                              {issue.solution}
+                            </p>
+                          </div>
+
+                          {/* Result */}
+                          <div>
+                            <h5 className="font-bold text-blue-600 dark:text-blue-400 mb-3 flex items-center">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                              Result
+                            </h5>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                              {issue.result}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Result Image */}
+                        <div>
+                          {issue.resultImage && (
+                            <div className="sticky top-8">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-4 text-center">
+                                Final Result
+                              </h5>
+                              <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-600 shadow-lg">
+                                <img src={issue.resultImage} alt="Solution Result" className="w-full h-auto" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Related Materials for Personal Projects */}
+            {project.links && project.links.length > 0 && (
+              <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                  Related Materials
+                </h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {project.links.map((link, idx) => (
+                    <a
+                      key={idx}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-gray-600 hover:border-primary-500 hover:shadow-md transition-all"
+                    >
+                      <span className="mr-3 text-primary-500">{getLinkIcon(link.type)}</span>
+                      <span className="text-gray-700 dark:text-gray-200 font-medium">{link.label}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
           )}
         </div>
       </div>
