@@ -98,7 +98,7 @@ const Home: React.FC = () => {
                     <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
                       {/* Profile Image */}
                       <img 
-                        src="/profile.jpg" 
+                        src="./profile.jpg" 
                         alt={PROFILE_DATA.name}
                         className="w-full h-full object-cover"
                       />
