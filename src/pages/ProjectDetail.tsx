@@ -2,6 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Users, ExternalLink, Github, FileText, Youtube } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/projects';
+import PDFViewer from '../components/PDFViewer';
+
+// Simple markdown to HTML converter for bold text
+const renderMarkdownText = (text: string) => {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+};
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,10 +85,57 @@ const ProjectDetail: React.FC = () => {
                 Project Overview
               </h3>
               
-              {/* Demo GIF/Video */}
-              {project.demoGif && (
+              {/* Demo GIF/Video - Single Demo */}
+              {project.demoGif && !project.gallery && (
                 <div className="rounded-2xl overflow-hidden shadow-2xl shadow-gray-200 dark:shadow-none border border-gray-100 dark:border-gray-800 mb-6 bg-gray-100 dark:bg-gray-800">
                   <img src={project.demoGif} alt={`${project.title} demo`} className="w-full h-auto" />
+                </div>
+              )}
+
+              {/* Multi-Step Demo Gallery */}
+              {project.gallery && project.gallery.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <span className="w-1 h-6 bg-primary-500 rounded-full mr-3"></span>
+                    Project Demo Stages
+                  </h4>
+                  
+                  <div className="space-y-6">
+                    {project.gallery.map((media, index) => (
+                      <div key={index} className="relative">
+                        {/* Step Header */}
+                        <div className="flex items-center mb-4">
+                          <div className="flex items-center justify-center w-8 h-8 bg-primary-500 text-white rounded-full font-bold text-sm mr-3">
+                            {index + 1}
+                          </div>
+                          <h5 className="text-base font-bold text-gray-900 dark:text-white">
+                            {media.caption || `Step ${index + 1}`}
+                          </h5>
+                        </div>
+                        
+                        {/* GIF Container */}
+                        <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 ml-11">
+                          <img 
+                            src={media.url} 
+                            alt={media.caption || `Demo step ${index + 1}`} 
+                            className="w-full h-auto"
+                          />
+                          {media.description && (
+                            <div className="p-4 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+                              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                {media.description}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Connecting Line (except for last item) */}
+                        {project.gallery && index < project.gallery.length - 1 && (
+                          <div className="absolute left-4 top-12 w-0.5 h-8 bg-gradient-to-b from-primary-500 to-primary-300 opacity-50"></div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
               
@@ -109,19 +162,68 @@ const ProjectDetail: React.FC = () => {
 
           {/* My Role */}
           <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
               My Role
             </h3>
-            <div className="bg-gray-50 dark:bg-dark-card p-6 rounded-xl border border-gray-100 dark:border-gray-700">
-              <ul className="space-y-3">
-                {project.role.map((item, idx) => (
-                  <li key={idx} className="flex items-start text-gray-700 dark:text-gray-300">
-                    <span className="w-2 h-2 mt-2 bg-primary-500 rounded-full mr-3 flex-shrink-0"></span>
-                    <span>{item}</span>
-                  </li>
+            
+            {/* Check if role is simple string array or detailed RoleItem array */}
+            {typeof project.role[0] === 'string' ? (
+              // Legacy format - simple string array
+              <div className="bg-gray-50 dark:bg-dark-card p-6 rounded-xl border border-gray-100 dark:border-gray-700">
+                <ul className="space-y-3">
+                  {(project.role as string[]).map((item, idx) => (
+                    <li key={idx} className="flex items-start text-gray-700 dark:text-gray-300">
+                      <span className="w-2 h-2 mt-2 bg-primary-500 rounded-full mr-3 flex-shrink-0"></span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              // New detailed format with images and descriptions
+              <div className="space-y-6">
+                {(project.role as any[]).map((roleItem, idx) => (
+                  <div key={idx} className="bg-gradient-to-br from-white via-gray-50/50 to-white dark:from-gray-800 dark:via-gray-800/50 dark:to-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+                    {/* Role Header */}
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className="flex items-center justify-center w-8 h-8 bg-primary-500 text-white rounded-full font-bold text-sm flex-shrink-0 mt-1">
+                        {idx + 1}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                          {roleItem.title}
+                        </h4>
+                        {roleItem.description && (
+                          <div 
+                            className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4"
+                            dangerouslySetInnerHTML={{ 
+                              __html: renderMarkdownText(roleItem.description) 
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Role Images */}
+                    {roleItem.images && roleItem.images.length > 0 && (
+                      <div className="ml-11">
+                        <div className={`grid gap-4 ${roleItem.images.length === 1 ? 'grid-cols-1' : roleItem.images.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                          {roleItem.images.map((image: string, imgIdx: number) => (
+                            <div key={imgIdx} className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+                              <img 
+                                src={image} 
+                                alt={`${roleItem.title} - Image ${imgIdx + 1}`}
+                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+            )}
           </section>
 
           {/* Results */}
@@ -245,26 +347,28 @@ const ProjectDetail: React.FC = () => {
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
                 관련 문서
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-6">
                 {project.links.filter(link => link.type === 'doc').map((link, idx) => (
-                  <a
-                    key={idx}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-card dark:to-gray-800 border border-gray-200 dark:border-gray-600 hover:border-primary-500 dark:hover:border-primary-500 transition-all shadow-sm hover:shadow-lg"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                      <FileText className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                  <div key={idx} className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm">
+                    {/* PDF Header */}
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                          <FileText className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white">{link.label}</h4>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">PDF 문서 - 마우스 휠로 스크롤 가능</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                        {link.label}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">PDF 문서</p>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-colors flex-shrink-0 ml-2" />
-                  </a>
+                    
+                    {/* PDF Viewer */}
+                    <PDFViewer
+                      url={link.url}
+                      title={link.label}
+                    />
+                  </div>
                 ))}
               </div>
             </section>

@@ -20,6 +20,19 @@ export interface TroubleshootingStep {
   resultImage?: string; // 결과 이미지/GIF
 }
 
+export interface MediaItem {
+  type: 'image' | 'gif' | 'video';
+  url: string;
+  caption?: string;
+  description?: string;
+}
+
+export interface RoleItem {
+  title: string; // Role title
+  description?: string; // Optional description
+  images?: string[]; // Optional images for this role
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -33,8 +46,9 @@ export interface Project {
   // Detail Section Fields
   demoGif?: string; // Optional: Demo GIF for RTL projects
   overview?: string; // Optional: Project overview summary
-  background: string; // Background/Objective
-  role: string[]; // Bullet points for Role/Contribution
+  gallery?: MediaItem[]; // Optional: Multiple GIFs/images gallery
+  background?: string; // Optional: Background/Objective (removed from most projects)
+  role: string[] | RoleItem[]; // Bullet points or detailed roles with images
   results: string; // Results/Outcome
   troubleshooting: string | TroubleshootingStep[]; // Problem & Solution story or structured steps
   techStack: string[]; // Tools used e.g. Verilog, Vivado
