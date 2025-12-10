@@ -307,8 +307,8 @@ const Home: React.FC = () => {
           <div className="mb-8">
             <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 max-w-2xl mx-auto border border-white/10">
               <p className="text-gray-300 leading-relaxed">
-                <strong className="text-primary-400">시스템 반도체 설계 및 검증 </strong>
-                 분야에서의 새로운 도전을 기다리고 있습니다! 
+                <strong className="text-primary-400"> 채용 관련 혹은 궁금한 점</strong>
+                 이 있으시면, 언제든지 연락 주세요! 
               </p>
             </div>
           </div>
