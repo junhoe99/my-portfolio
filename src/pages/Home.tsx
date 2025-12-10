@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Github, Mail, MapPin, Briefcase, GraduationCap } from 'lucide-react';
 import { PROFILE_DATA, PROJECTS_DATA, SKILLS_DATA } from '../data/projects';
 import ProjectCard from '../components/ProjectCard';
+import ContactModal from '../components/ContactModal';
 import { ProjectCategory } from '../types';
 
 const Home: React.FC = () => {
   const [filter, setFilter] = useState<string>('All');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState<boolean>(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState<boolean>(false);
 
   const uniqueTags = ['All', ...Array.from(new Set(PROJECTS_DATA.flatMap(p => p.tags)))];
   
@@ -302,15 +304,22 @@ const Home: React.FC = () => {
       <footer id="contact" className="bg-gray-900 dark:bg-black text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-6">Let's Connect</h2>
-          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-           시스템 반도체 분야에서 새로운 기회를 찾고 있습니다.
-           RTL 설계, UVM 검증, FPGA 프로토타이핑 관련 논의는 언제든 환영합니다.
-          </p>
+          <div className="mb-8">
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 max-w-2xl mx-auto border border-white/10">
+              <p className="text-gray-300 leading-relaxed">
+                <strong className="text-primary-400">시스템 반도체 설계 및 검증 </strong>
+                 분야에서의 새로운 도전을 기다리고 있습니다! 
+              </p>
+            </div>
+          </div>
           
           <div className="flex justify-center gap-6 mb-12">
-            <a href={`mailto:${PROFILE_DATA.email}`} className="p-4 bg-white/10 backdrop-blur-2xl rounded-2xl hover:bg-primary-600 transition-all duration-500 border-2 border-white/30 hover:border-primary-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.6)] hover:-translate-y-1 group">
+            <button 
+              onClick={() => setIsContactModalOpen(true)}
+              className="p-4 bg-white/10 backdrop-blur-2xl rounded-2xl hover:bg-primary-600 transition-all duration-500 border-2 border-white/30 hover:border-primary-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.6)] hover:-translate-y-1 group"
+            >
               <Mail className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            </a>
+            </button>
             <a href={PROFILE_DATA.github} target="_blank" rel="noopener noreferrer" className="p-4 bg-white/10 backdrop-blur-2xl rounded-2xl hover:bg-primary-600 transition-all duration-500 border-2 border-white/30 hover:border-primary-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(59,130,246,0.6)] hover:-translate-y-1 group">
               <Github className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </a>
@@ -322,6 +331,12 @@ const Home: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </main>
   );
 };
