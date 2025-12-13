@@ -19,7 +19,7 @@ export const PROFILE_DATA = {
       description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
     },
     {
-      title: "캡스톤 디자인 경진대회 우수상",
+      title: "캡스톤 디자인 경진대회 동상",
       organization: "단국대학교",
       date: "2024.12",
       description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
