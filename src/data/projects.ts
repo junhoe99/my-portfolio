@@ -13,10 +13,10 @@ export const PROFILE_DATA = {
   resumeUrl: "/resume.pdf", // Placeholder
   awards: [
     {
-      title: "미래형 자동차 캡스톤 디자인 경진대회",
+      title: "미래형 자동차 캡스톤 디자인 경진대회 우수상",
       organization: "한국생산제조학회",
       date: "2024.11",
-      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 우수상 수상"
+      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
     },
     {
       title: "캡스톤 디자인 경진대회 우수상",
