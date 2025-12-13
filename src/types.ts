@@ -50,7 +50,7 @@ export interface Project {
   background?: string; // Optional: Background/Objective (removed from most projects)
   role: string[] | RoleItem[]; // Bullet points or detailed roles with images
   results: string; // Results/Outcome
-  troubleshooting: string | TroubleshootingStep[]; // Problem & Solution story or structured steps
+  troubleshooting?: string | TroubleshootingStep[]; // Optional: Problem & Solution story or structured steps
   techStack: string[]; // Tools used e.g. Verilog, Vivado
   links: ProjectLink[];
 }
