@@ -399,6 +399,7 @@ export const PROJECTS_DATA: Project[] = [
       }
     ],
     results: "115200 bps에서 99.9% 이상의 데이터 전송 정확도를 달성했으며, 다양한 MCU 및 PC와의 호환성을 검증했습니다.",
+    troubleshooting: [],
     techStack: ["Verilog", "ModelSim", "Quartus", "UART"],
     links: [
       { type: 'github', url: 'https://github.com/junhoe99/UART_Protocol', label: 'Source Code' },
@@ -459,6 +460,7 @@ export const PROJECTS_DATA: Project[] = [
       }
     ],
     results: "400kHz Fast mode에서 stable한 통신을 구현했으며, 최대 8개 디바이스가 연결된 multi-slave 환경에서 99% 이상의 통신 성공률을 달성했습니다.",
+    troubleshooting: [],
     techStack: ["Verilog", "ModelSim", "I2C", "Multi-master"],
     links: [
       { type: 'github', url: 'https://github.com/junhoe99/I2C_Protocol', label: 'Source Code' },
@@ -519,6 +521,7 @@ export const PROJECTS_DATA: Project[] = [
       }
     ],
     results: "최대 50MHz 클록에서 안정적인 통신을 구현했으며, Flash memory, ADC, DAC 등 다양한 SPI 디바이스와의 호환성을 검증했습니다.",
+    troubleshooting: [],
     techStack: ["Verilog", "ModelSim", "SPI", "High-speed"],
     links: [
       { type: 'github', url: 'https://github.com/junhoe99/SPI_Protocol', label: 'Source Code' },
