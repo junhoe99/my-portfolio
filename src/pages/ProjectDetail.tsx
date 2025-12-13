@@ -46,6 +46,7 @@ const ProjectDetail: React.FC = () => {
 
   const isRTLProject = project.tags.includes('RTL Design');
   const isTeamProject = project.teamSize.includes('Team');
+  const isProtocolProject = project.teamSize === 'Protocol';
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg pt-20 pb-20">
@@ -390,6 +391,144 @@ const ProjectDetail: React.FC = () => {
               </div>
             </section>
           )}
+          </>
+          ) : isProtocolProject ? (
+          /* Protocol Project Layout (프로토콜 프로젝트 양식) */
+          <>
+            {/* 1. Project Overview */}
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                Project Overview
+              </h3>
+              
+              <div className="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10 p-6 rounded-2xl border border-primary-100 dark:border-primary-900/20">
+                <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {project.overview}
+                </p>
+              </div>
+            </section>
+
+            {/* 2. Protocol Specification */}
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                Protocol Specification
+              </h3>
+              
+              <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                {/* Block Diagram */}
+                <div className="bg-white dark:bg-dark-card p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                    Block Diagram
+                  </h4>
+                  {project.gallery && project.gallery[0] && (
+                    <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                      <img src={project.gallery[0].url} alt="Block Diagram" className="w-full h-auto" />
+                      <div className="bg-gray-50 dark:bg-gray-700 px-3 py-2 text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{project.gallery[0].caption}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* FSM & Timing Diagram */}
+                <div className="bg-white dark:bg-dark-card p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                    FSM & Timing Diagram
+                  </h4>
+                  {project.gallery && project.gallery[1] && (
+                    <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                      <img src={project.gallery[1].url} alt="FSM & Timing" className="w-full h-auto" />
+                      <div className="bg-gray-50 dark:bg-gray-700 px-3 py-2 text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{project.gallery[1].caption}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Implementation Details */}
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Implementation Details</h4>
+                <div className="space-y-4">
+                  {project.role && (project.role as any[]).map((roleItem, idx) => (
+                    <div key={idx} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+                      <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                          {idx + 1}
+                        </span>
+                        {roleItem.title}
+                      </h5>
+                      {roleItem.description && (
+                        <div 
+                          className="text-gray-600 dark:text-gray-400 leading-relaxed"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(roleItem.description) 
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* 3. Simulation Results */}
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                Simulation Results
+              </h3>
+              
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 p-8 rounded-2xl border border-green-200 dark:border-green-900/20 shadow-lg">
+                {/* Simulation Image/GIF */}
+                <div className="text-center mb-6">
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Simulation Waveform</h4>
+                  {project.gallery && project.gallery[2] && (
+                    <div className="rounded-xl overflow-hidden shadow-lg inline-block bg-white dark:bg-gray-800 p-4">
+                      <img src={project.gallery[2].url} alt="Simulation Results" className="max-w-full h-auto" />
+                      <div className="mt-3 text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{project.gallery[2].caption}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Results Description */}
+                <div className="bg-white/50 dark:bg-gray-800/50 p-6 rounded-xl">
+                  <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                    Verification Results
+                  </h5>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    {project.results}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Related Materials for Protocol Projects */}
+            {project.links && project.links.length > 0 && (
+              <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                  Related Materials
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {project.links.map((link, idx) => (
+                    <a
+                      key={idx}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-4 bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-gray-600 hover:border-primary-500 hover:shadow-md transition-all"
+                    >
+                      <span className="mr-3 text-primary-500">{getLinkIcon(link.type)}</span>
+                      <span className="text-gray-700 dark:text-gray-200 font-medium">{link.label}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
           </>
           ) : (
           /* Personal Project Layout (개인 프로젝트 새 양식) */

@@ -344,5 +344,185 @@ export const PROJECTS_DATA: Project[] = [
       { type: 'github', url: 'https://github.com/junhoe99/line-buffer-controller', label: 'Source Code' },
       { type: 'doc', url: './projects/line-buffer-controller/technical_spec.pdf', label: '기술 명세서 PDF' }
     ]
+  },
+  {
+    id: "uart-protocol",
+    title: "UART Protocol Implementation",
+    period: "2024.09 ~ 2024.10",
+    teamSize: "Solo",
+    tags: [ProjectCategory.RTL_DESIGN],
+    thumbnail: "uart.jpg",
+    summary: "Verilog HDL을 사용하여 UART(Universal Asynchronous Receiver-Transmitter) 통신 프로토콜을 구현했습니다.",
+    
+    // Protocol Project Gallery - Block Diagram, FSM/Timing, Simulation
+    gallery: [
+      {
+        type: 'image' as const,
+        url: "uart_block_diagram.jpg",
+        caption: "UART System Block Diagram & Architecture",
+      },
+      {
+        type: 'image' as const,
+        url: "uart_fsm_timing.jpg", 
+        caption: "UART FSM State Diagram & Timing Analysis",
+      },
+      {
+        type: 'gif' as const,
+        url: "uart_simulation.gif",
+        caption: "UART Communication Simulation Results",
+      }
+    ],
+    
+    overview: `비동기 직렬 통신 프로토콜인 UART를 Verilog로 완전 구현했습니다. Configurable baud rate 지원과 parity checking, flow control 기능을 포함하여 산업 표준에 부합하는 견고한 통신 모듈을 설계했습니다.`,
+    
+    role: [
+      {
+        title: "UART Transmitter 설계",
+        images: [
+          "uart_tx_module.jpg"
+        ],
+        description: `✅Start bit, Data bits(5-9), Parity bit, Stop bit으로 구성된 프레임 구조 구현.<br/><br/>✅Configurable baud rate generator를 통한 다양한 통신 속도 지원.<br/><br/>✅FIFO 버퍼를 통한 연속 데이터 전송 최적화.`
+      },
+      {
+        title: "UART Receiver 설계",
+        description: `✅Start bit detection을 위한 edge detection 및 샘플링 로직 구현.<br/><br/>✅Oversampling(x16) 기법을 통한 정확한 데이터 복구.<br/><br/>✅Parity error, Frame error, Overrun error detection 기능 구현.`,
+        images: [
+          "uart_rx_module.jpg"
+        ]
+      },
+      {
+        title: "Baud Rate Generator 구현",
+        description: `✅System clock을 기준으로 한 정확한 baud rate 생성.<br/><br/>✅9600, 19200, 38400, 115200 bps 등 표준 속도 지원.<br/><br/>✅Clock divider를 통한 저전력 설계 최적화.`,
+        images: [
+          "uart_baud_gen.jpg"
+        ]
+      }
+    ],
+    results: "115200 bps에서 99.9% 이상의 데이터 전송 정확도를 달성했으며, 다양한 MCU 및 PC와의 호환성을 검증했습니다.",
+    techStack: ["Verilog", "ModelSim", "Quartus", "UART"],
+    links: [
+      { type: 'github', url: 'https://github.com/junhoe99/UART_Protocol', label: 'Source Code' },
+      { type: 'doc', url: './projects/uart/protocol_spec.pdf', label: 'Protocol Specification' }
+    ]
+  },
+  {
+    id: "i2c-protocol",
+    title: "I2C Protocol Implementation",
+    period: "2024.10 ~ 2024.11",
+    teamSize: "Solo",
+    tags: [ProjectCategory.RTL_DESIGN],
+    thumbnail: "i2c.jpg",
+    summary: "Verilog HDL을 사용하여 I2C(Inter-Integrated Circuit) 프로토콜의 Master/Slave 모듈을 구현했습니다.",
+    
+    // Protocol Project Gallery - Block Diagram, FSM/Timing, Simulation
+    gallery: [
+      {
+        type: 'image' as const,
+        url: "i2c_block_diagram.jpg",
+        caption: "I2C Master/Slave Architecture & Bus Topology",
+      },
+      {
+        type: 'image' as const,
+        url: "i2c_fsm_timing.jpg", 
+        caption: "I2C Protocol FSM & Detailed Timing Diagram",
+      },
+      {
+        type: 'gif' as const,
+        url: "i2c_simulation.gif",
+        caption: "Multi-device I2C Communication Simulation",
+      }
+    ],
+    
+    overview: `동기식 2-wire 통신 프로토콜인 I2C를 완전 구현했습니다. Master/Slave 모드를 모두 지원하며, Multi-master 환경에서의 bus arbitration과 collision detection 기능을 포함한 완전한 I2C 통신 시스템을 구현했습니다.`,
+    
+    role: [
+      {
+        title: "I2C Master Controller 설계",
+        images: [
+          "i2c_master.jpg"
+        ],
+        description: `✅Start/Stop condition 생성 및 Clock stretching 지원.<br/><br/>✅7-bit/10-bit addressing mode 지원 및 Read/Write 동작 구현.<br/><br/>✅ACK/NACK handling 및 error recovery 메커니즘 구현.`
+      },
+      {
+        title: "I2C Slave Controller 설계",
+        description: `✅Address matching 및 General call address 지원.<br/><br/>✅Clock synchronization 및 data hold time 보장.<br/><br/>✅Slave mode에서의 Clock stretching 및 Early termination 처리.`,
+        images: [
+          "i2c_slave.jpg"
+        ]
+      },
+      {
+        title: "Bus Arbitration 구현",
+        description: `✅Multi-master 환경에서의 SDA line monitoring 및 collision detection.<br/><br/>✅Priority-based arbitration 및 bus recovery 메커니즘.<br/><br/>✅SCL synchronization을 통한 clock stretching 지원.`,
+        images: [
+          "i2c_arbitration.jpg"
+        ]
+      }
+    ],
+    results: "400kHz Fast mode에서 stable한 통신을 구현했으며, 최대 8개 디바이스가 연결된 multi-slave 환경에서 99% 이상의 통신 성공률을 달성했습니다.",
+    techStack: ["Verilog", "ModelSim", "I2C", "Multi-master"],
+    links: [
+      { type: 'github', url: 'https://github.com/junhoe99/I2C_Protocol', label: 'Source Code' },
+      { type: 'doc', url: './projects/i2c/protocol_spec.pdf', label: 'I2C Specification' }
+    ]
+  },
+  {
+    id: "spi-protocol",
+    title: "SPI Protocol Implementation",
+    period: "2024.11 ~ 2024.12",
+    teamSize: "Solo",
+    tags: [ProjectCategory.RTL_DESIGN],
+    thumbnail: "spi.jpg",
+    summary: "SystemVerilog HDL을 사용하여 SPI(Serial Peripheral Interface) 프로토콜의 Master/Slave 컨트롤러를 구현했습니다.",
+    
+    // Protocol Project Gallery - Block Diagram, FSM/Timing, Simulation
+    gallery: [
+      {
+        type: 'image' as const,
+        url: "spi_block_diagram.jpg",
+        caption: "SPI Master/Slave System Architecture",
+      },
+      {
+        type: 'image' as const,
+        url: "spi_fsm_timing.jpg", 
+        caption: "SPI Protocol Modes & Timing Characteristics",
+      },
+      {
+        type: 'gif' as const,
+        url: "spi_simulation.gif",
+        caption: "High-speed SPI Communication Simulation",
+      }
+    ],
+    
+    overview: `고속 동기식 통신 프로토콜인 SPI를 완전 구현했습니다. 4가지 클록 모드(CPOL, CPHA) 지원과 다양한 데이터 길이(8/16/32-bit) 처리가 가능하며, multi-slave 선택을 위한 Chip Select 관리 기능을 포함한 완전한 SPI 시스템을 구현했습니다.`,
+    
+    role: [
+      {
+        title: "SPI Master Controller 설계",
+        images: [
+          "spi_master.jpg"
+        ],
+        description: `✅4가지 SPI 모드(Mode 0-3) 지원 및 configurable clock frequency.<br/><br/>✅Multiple Chip Select 관리 및 daisy-chain 구성 지원.<br/><br/>✅Configurable data width(8/16/32-bit) 및 MSB/LSB first 전송.`
+      },
+      {
+        title: "SPI Slave Controller 설계",
+        description: `✅모든 SPI 모드에서의 data sampling 및 setup time 보장.<br/><br/>✅Chip Select 기반 통신 시작/종료 제어.<br/><br/>✅Full-duplex 통신 및 dummy clock 처리 최적화.`,
+        images: [
+          "spi_slave.jpg"
+        ]
+      },
+      {
+        title: "Clock Domain & Timing 최적화",
+        description: `✅CPOL/CPHA 설정에 따른 정확한 clock edge detection.<br/><br/>✅Setup/Hold time violation 방지를 위한 timing constraint 설계.<br/><br/>✅고속 통신을 위한 pipeline 구조 및 FIFO 버퍼링.`,
+        images: [
+          "spi_timing.jpg"
+        ]
+      }
+    ],
+    results: "최대 50MHz 클록에서 안정적인 통신을 구현했으며, Flash memory, ADC, DAC 등 다양한 SPI 디바이스와의 호환성을 검증했습니다.",
+    techStack: ["Verilog", "ModelSim", "SPI", "High-speed"],
+    links: [
+      { type: 'github', url: 'https://github.com/junhoe99/SPI_Protocol', label: 'Source Code' },
+      { type: 'doc', url: './projects/spi/protocol_spec.pdf', label: 'SPI Specification' }
+    ]
   }
 ];
