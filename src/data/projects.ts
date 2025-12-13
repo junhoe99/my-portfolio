@@ -121,7 +121,7 @@ export const PROJECTS_DATA: Project[] = [
   },
   {
     id: "AMBA APB-uvm",
-    title: "APB System UVM Verification",
+    title: "APB Protocol UVM Verification",
     period: "2025.12.08 ~ 2025.12.14",
     teamSize: "Solo",
     tags: [ProjectCategory.VERIFICATION],
