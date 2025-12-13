@@ -234,13 +234,14 @@ const ProjectDetail: React.FC = () => {
           </section>
 
           {/* Troubleshooting */}
-          <section className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-red-500 pl-4">
-              Troubleshooting
-            </h3>
-            
-            {/* Check if troubleshooting is structured or plain text */}
-            {typeof project.troubleshooting === 'string' ? (
+          {project.troubleshooting && (
+            <section className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-red-500 pl-4">
+                Troubleshooting
+              </h3>
+              
+              {/* Check if troubleshooting is structured or plain text */}
+              {typeof project.troubleshooting === 'string' ? (
               // Legacy format - plain text
               <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-xl border border-red-100 dark:border-red-900/20">
                 <h4 className="font-bold text-red-800 dark:text-red-300 mb-2 flex items-center">
@@ -323,6 +324,7 @@ const ProjectDetail: React.FC = () => {
               </div>
             )}
           </section>
+          )}
 
           {/* Tech Stack */}
           <section>
