@@ -16,13 +16,13 @@ export const PROFILE_DATA = {
       title: "미래형 자동차 캡스톤 디자인 경진대회 우수상",
       organization: "한국생산제조학회",
       date: "2024.11",
-      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
+      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 참여한 경진대회에서 우수상 수상"
     },
     {
       title: "캡스톤 디자인 경진대회 동상",
       organization: "단국대학교",
       date: "2024.12",
-      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 동상 수상"
+      description: "Ion Battery NDT(Non-Destructive Testing) 시스템 개발 프로젝트로 참여한 경진대회에서 동상 수상"
     }
   ]
 };
