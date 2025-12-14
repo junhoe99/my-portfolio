@@ -65,9 +65,6 @@ const Home: React.FC = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center relative z-10">
           <div className="animate-fade-in-up">
-            <span className="inline-block py-2 px-4 rounded-full bg-white/20 dark:bg-white/10 text-primary-600 dark:text-primary-300 text-sm font-medium mb-6 backdrop-blur-xl border border-white/40 dark:border-white/30 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]">
-              System Semiconductor Engineer
-            </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
               Hello, I'm <span className="text-primary-600 dark:text-primary-400 relative inline-block">
                 {PROFILE_DATA.name}

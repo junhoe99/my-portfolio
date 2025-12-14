@@ -15,7 +15,9 @@ export interface TroubleshootingStep {
   problem: string; // 문제 상황 설명
   problemImage?: string; // 문제 상황 이미지/GIF
   analysis: string; // 원인 분석
+  analysisImage?: string; // 원인 분석 이미지
   solution: string; // 해결 방법
+  solutionImage?: string; // 해결 방법 이미지
   result: string; // 적용 결과
   resultImage?: string; // 결과 이미지/GIF
 }

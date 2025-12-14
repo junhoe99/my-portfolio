@@ -272,9 +272,10 @@ const ProjectDetail: React.FC = () => {
                         <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
                         <h5 className="font-bold text-red-800 dark:text-red-300 text-lg">문제 상황</h5>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4">
-                        {step.problem}
-                      </p>
+                      <div 
+                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4"
+                        dangerouslySetInnerHTML={{ __html: renderMarkdownText(step.problem) }}
+                      />
                       {step.problemImage && (
                         <div className="ml-4 rounded-xl overflow-hidden border border-red-200 dark:border-red-800 shadow-md">
                           <img src={step.problemImage} alt="Problem visualization" className="w-full h-auto" />
@@ -288,9 +289,10 @@ const ProjectDetail: React.FC = () => {
                         <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
                         <h5 className="font-bold text-orange-800 dark:text-orange-300 text-lg">원인 분석</h5>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-white/50 dark:bg-gray-800/30 p-4 rounded-lg">
-                        {step.analysis}
-                      </p>
+                      <div 
+                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-white/50 dark:bg-gray-800/30 p-4 rounded-lg"
+                        dangerouslySetInnerHTML={{ __html: renderMarkdownText(step.analysis) }}
+                      />
                     </div>
 
                     {/* 3. Solution */}
@@ -299,9 +301,10 @@ const ProjectDetail: React.FC = () => {
                         <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                         <h5 className="font-bold text-blue-800 dark:text-blue-300 text-lg">해결 방법</h5>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                        {step.solution}
-                      </p>
+                      <div 
+                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800"
+                        dangerouslySetInnerHTML={{ __html: renderMarkdownText(step.solution) }}
+                      />
                     </div>
 
                     {/* 4. Result */}
@@ -310,9 +313,10 @@ const ProjectDetail: React.FC = () => {
                         <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                         <h5 className="font-bold text-green-800 dark:text-green-300 text-lg">적용 결과</h5>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-                        {step.result}
-                      </p>
+                      <div 
+                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800"
+                        dangerouslySetInnerHTML={{ __html: renderMarkdownText(step.result) }}
+                      />
                       {step.resultImage && (
                         <div className="ml-4 rounded-xl overflow-hidden border border-green-200 dark:border-green-800 shadow-md">
                           <img src={step.resultImage} alt="Result visualization" className="w-full h-auto" />
@@ -535,120 +539,244 @@ const ProjectDetail: React.FC = () => {
           ) : (
           /* Personal Project Layout (개인 프로젝트 새 양식) */
           <>
-            {/* 1. Project Overview - 최종 결과물 */}
-            <section className="animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
-                Project Overview
-              </h3>
-              
-              {/* Final Result Image */}
-              <div className="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10 p-8 rounded-2xl border border-primary-100 dark:border-primary-900/20 mb-6">
-                <div className="text-center mb-6">
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">최종 결과물</h4>
-                  {project.gallery && project.gallery[2] && (
-                    <div className="rounded-xl overflow-hidden shadow-lg inline-block">
-                      <img src={project.gallery[2].url} alt="Final Result" className="max-w-full h-auto" />
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 px-4 pb-4">
-                        {project.gallery[2].caption}
-                      </p>
-                    </div>
-                  )}
-                </div>
+            {/* Render each role section separately */}
+            {project.role && (project.role as any[]).map((roleItem, idx) => (
+              <section key={idx} className="animate-fade-in-up" style={{ animationDelay: `${0.05 * (idx + 1)}s` }}>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
+                  {roleItem.title}
+                </h3>
                 
-                {/* Project Summary */}
-                {project.overview && (
-                  <div className="mt-6">
-                    <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                      {project.overview}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </section>
-
-            {/* 2. System Specification */}
-            <section className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-l-4 border-primary-500 pl-4">
-                System Specification
-              </h3>
-              
-              {/* Horizontal Layout - Single Wide Section */}
-              <div className="bg-white dark:bg-dark-card p-8 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-                
-                {/* Block Diagram Section */}
-                <div className="mb-8">
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
-                    System Architecture
-                  </h4>
-                  {project.gallery && project.gallery[0] && (
-                    <div className="flex justify-center">
-                      <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md max-w-4xl">
-                        <img src={project.gallery[0].url} alt="System Architecture" className="w-full h-auto" />
-                        <div className="bg-gray-50 dark:bg-gray-700 px-4 py-2 text-center">
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{project.gallery[0].caption}</p>
+                <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/50 p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  {/* Description with interleaved images for "2. Project Overview" */}
+                  {roleItem.title === "2. Project Overview" && roleItem.description && roleItem.images && roleItem.images.length === 2 ? (
+                    <>
+                      {/* DUT Block Diagram section */}
+                      <div className="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+                        {/* Title with icon */}
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full font-bold text-sm">
+                            1
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">DUT Block Diagram</h3>
                         </div>
+                        
+                        {/* Image */}
+                        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md mb-4">
+                          <img 
+                            src={roleItem.images[0]} 
+                            alt="DUT Block Diagram"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                        
+                        {/* Description text */}
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**DUT Block Diagram**')[1]
+                                .split('**UVM Testbench Block Diagram**')[0]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
                       </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Specifications Table Section */}
-                <div>
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                    <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                    Technical Specifications
-                  </h4>
-                  
-                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="space-y-2">
-                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Technology Stack</h5>
-                      <p className="text-gray-900 dark:text-white font-medium">{project.techStack.join(', ')}</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Project Type</h5>
-                      <p className="text-gray-900 dark:text-white font-medium">{project.tags.join(', ')}</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Duration</h5>
-                      <p className="text-gray-900 dark:text-white font-medium">{project.period}</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <h5 className="font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wide">Key Results</h5>
-                      <p className="text-gray-900 dark:text-white font-medium text-sm leading-relaxed">{project.results}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Implementation Details */}
-              <div className="mt-8">
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Implementation Details</h4>
-                <div className="space-y-4">
-                  {project.role && (project.role as any[]).map((roleItem, idx) => (
-                    <div key={idx} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-                      <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center">
-                        <span className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-                          {idx + 1}
-                        </span>
-                        {roleItem.title}
-                      </h5>
+                      
+                      {/* UVM Testbench Block Diagram section */}
+                      <div className="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+                        {/* Title with icon */}
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="flex items-center justify-center w-8 h-8 bg-green-500 text-white rounded-full font-bold text-sm">
+                            2
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">UVM Testbench Block Diagram</h3>
+                        </div>
+                        
+                        {/* Image */}
+                        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md mb-4">
+                          <img 
+                            src={roleItem.images[1]} 
+                            alt="UVM Testbench Block Diagram"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                        
+                        {/* Description text */}
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**UVM Testbench Block Diagram**')[1]
+                                .split('**핵심 Protocol(SVA)**')[0]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                      
+                      {/* 핵심 Protocol(SVA) section */}
+                      <div className="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+                        {/* Title with icon */}
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="flex items-center justify-center w-8 h-8 bg-purple-500 text-white rounded-full font-bold text-sm">
+                            3
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">핵심 Protocol(SVA)</h3>
+                        </div>
+                        
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**핵심 Protocol(SVA)**')[1]
+                                .split('**Project Hierarchy**')[0]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                      
+                      {/* Project Hierarchy section */}
+                      <div className="mb-8">
+                        {/* Title with icon */}
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="flex items-center justify-center w-8 h-8 bg-orange-500 text-white rounded-full font-bold text-sm">
+                            4
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Project Hierarchy</h3>
+                        </div>
+                        
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**Project Hierarchy**')[1]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : roleItem.title === "3. Report" && roleItem.description && roleItem.images && roleItem.images.length === 3 ? (
+                    <>
+                      {/* Simulation Waveform section */}
+                      <div className="mb-8">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Simulation Waveform</h3>
+                        
+                        {/* Image */}
+                        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md mb-4">
+                          <img 
+                            src={roleItem.images[0]} 
+                            alt="Simulation Waveform"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                        
+                        {/* Description text */}
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**Simulation Waveform**')[1]
+                                .split('**UVM Log Messages**')[0]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                      
+                      {/* UVM Log Messages section */}
+                      <div className="mb-8">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">UVM Log Messages</h3>
+                        
+                        {/* Image */}
+                        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md mb-4">
+                          <img 
+                            src={roleItem.images[1]} 
+                            alt="UVM Log Messages"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                        
+                        {/* Description text */}
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**UVM Log Messages**')[1]
+                                .split('**Coverage Report**')[0]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                      
+                      {/* Coverage Report section */}
+                      <div>
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Coverage Report</h3>
+                        
+                        {/* Image */}
+                        <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md mb-4">
+                          <img 
+                            src={roleItem.images[2]} 
+                            alt="Coverage Report"
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                        
+                        {/* Description text */}
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ 
+                            __html: renderMarkdownText(
+                              roleItem.description
+                                .split('**Coverage Report**')[1]
+                                .replace(/^<br\/>|<br\/>$/g, '')
+                            ) 
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Default rendering for other sections */}
                       {roleItem.description && (
                         <div 
-                          className="text-gray-600 dark:text-gray-400 leading-relaxed"
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed prose prose-lg dark:prose-invert max-w-none"
                           dangerouslySetInnerHTML={{ 
                             __html: renderMarkdownText(roleItem.description) 
                           }}
                         />
                       )}
-                    </div>
-                  ))}
+                      
+                      {/* Images */}
+                      {roleItem.images && roleItem.images.length > 0 && (
+                        <div className="mt-6 grid gap-6">
+                          {roleItem.images.map((image: string, imgIdx: number) => (
+                            <div key={imgIdx} className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-md">
+                              <img 
+                                src={image} 
+                                alt={`${roleItem.title} - Image ${imgIdx + 1}`}
+                                className="w-full h-auto object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
-              </div>
-            </section>
+              </section>
+            ))}
 
             {/* 3. Trouble Shooting */}
             {project.troubleshooting && Array.isArray(project.troubleshooting) && (
@@ -670,67 +798,62 @@ const ProjectDetail: React.FC = () => {
                         </h4>
                       </div>
 
-                      <div className="grid lg:grid-cols-2 gap-8">
-                        {/* Problem & Solution */}
-                        <div className="space-y-6">
-                          {/* Problem */}
-                          <div>
-                            <h5 className="font-bold text-red-600 dark:text-red-400 mb-3 flex items-center">
-                              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-                              Problem
-                            </h5>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                              {issue.problem}
-                            </p>
+                      {/* Problem */}
+                      <div className="mb-6">
+                        <h5 className="font-bold text-red-600 dark:text-red-400 mb-3 flex items-center">
+                          <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                          문제 상황
+                        </h5>
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
+                          dangerouslySetInnerHTML={{ __html: renderMarkdownText(issue.problem) }}
+                        />
+                        {issue.problemImage && (
+                          <div className="rounded-xl overflow-hidden border border-red-200 dark:border-red-800 shadow-md">
+                            <img src={issue.problemImage} alt="Problem visualization" className="w-full h-auto" />
                           </div>
+                        )}
+                      </div>
 
-                          {/* Analysis */}
-                          <div>
-                            <h5 className="font-bold text-yellow-600 dark:text-yellow-400 mb-3 flex items-center">
-                              <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
-                              Analysis
-                            </h5>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                              {issue.analysis}
-                            </p>
+                      {/* Analysis */}
+                      <div className="mb-6">
+                        <h5 className="font-bold text-yellow-600 dark:text-yellow-400 mb-3 flex items-center">
+                          <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                          원인 분석
+                        </h5>
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: renderMarkdownText(issue.analysis) }}
+                        />
+                      </div>
+
+                      {/* Solution */}
+                      <div className="mb-6">
+                        <h5 className="font-bold text-green-600 dark:text-green-400 mb-3 flex items-center">
+                          <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                          해결 방법
+                        </h5>
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: renderMarkdownText(issue.solution) }}
+                        />
+                      </div>
+
+                      {/* Result */}
+                      <div>
+                        <h5 className="font-bold text-blue-600 dark:text-blue-400 mb-3 flex items-center">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                          적용 결과
+                        </h5>
+                        <div 
+                          className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
+                          dangerouslySetInnerHTML={{ __html: renderMarkdownText(issue.result) }}
+                        />
+                        {issue.resultImage && (
+                          <div className="rounded-xl overflow-hidden border border-blue-200 dark:border-blue-800 shadow-md">
+                            <img src={issue.resultImage} alt="Result visualization" className="w-full h-auto" />
                           </div>
-
-                          {/* Solution */}
-                          <div>
-                            <h5 className="font-bold text-green-600 dark:text-green-400 mb-3 flex items-center">
-                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                              Solution
-                            </h5>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                              {issue.solution}
-                            </p>
-                          </div>
-
-                          {/* Result */}
-                          <div>
-                            <h5 className="font-bold text-blue-600 dark:text-blue-400 mb-3 flex items-center">
-                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                              Result
-                            </h5>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                              {issue.result}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Result Image */}
-                        <div>
-                          {issue.resultImage && (
-                            <div className="sticky top-8">
-                              <h5 className="font-bold text-gray-900 dark:text-white mb-4 text-center">
-                                Final Result
-                              </h5>
-                              <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-600 shadow-lg">
-                                <img src={issue.resultImage} alt="Solution Result" className="w-full h-auto" />
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                        )}
                       </div>
                     </div>
                   ))}
