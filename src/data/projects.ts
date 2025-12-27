@@ -102,15 +102,15 @@ export const PROJECTS_DATA: Project[] = [
         ]
       }
     ],
-    results: "Xilinx Zynq-7000 보드 2대를 사용하여 프레임 드랍 없는 부드러운 게임 플레이를 구현했습니다. 오실로스코프로 I2C SDA/SCL 라인을 측정하여 Timing Violation이 없음을 검증하였으며, 최종 시연에서 99% 이상의 통신 성공률을 달성했습니다.",
+    results: "Dice의 색상을 감지하는 카메라, 사용자의 실시간 영상을 처리하는 두개의 카메라를 성공적으로 제어하여, 게임의 목표동작을 성공적으로 구현했습니다.",
     troubleshooting: [
       {
-        problem: "I2C 통신 중 ACK 신호가 간헐적으로 누락되는 현상이 발생했습니다.",
-        problemImage: "./projects/dual-fpga-pingpong/i2c_problem.gif",
-        analysis: "신호 분석 결과, 긴 케이블로 인한 기생 커패시턴스 문제로 SCL의 Rise Time이 지연됨을 확인했습니다. 이로 인해 Slave 디바이스가 ACK 신호를 정상적으로 생성하지 못하는 타이밍 이슈가 발생했습니다.",
-        solution: "FPGA 내부의 Pull-up 저항 옵션을 활성화하여 신호 Rise Time을 개선하고, Sampling 로직을 3-stage Synchronizer로 보강하여 메타스테이블리티 문제를 방지했습니다.",
-        result: "통신 안정성이 대폭 향상되어 99% 이상의 통신 성공률을 달성했으며, 오실로스코프로 측정한 결과 Timing Violation이 완전히 해소되었습니다.",
-        resultImage: "./projects/dual-fpga-pingpong/i2c_solution.gif"
+        problem: "주사위를 한번만 던졌음에도, 게임 말이 순식간에 맵을 통과해서 게임이 끝나버리는 현상 발생.",
+        problemImage: "VGA_p1.jpg",
+        analysis: "1. 기존의 Color_Detector 설계는 Color Detecting 후, 그 값을 곧바로 Game Logic 모듈로 전달. <br/><br/>2. 카메라의 미세한 노이즈나 손떨림으로 인해 잘못된 색상을 간헐적으로 감지하여 전달.",
+        solution: "1. Color_Result_Manager 모듈을 추가하고, 'Voting 알고리즘'을 도입<br/><br/> 2. 연속된 3개의 Frame 동안 감지된 색상을 저장하고, 가장 많이 감지된 색상을 최종적인 Stable Color로 확정<br/><br/>3. 이를 통해 일시적인 노이즈나 잘못된 감지로 인한 오동작을 효과적으로 방지.",
+        solutionImage: "VGA_S1.jpg",
+        result: "1. 색상 인식 동작이 안정화되어, 게임 플레이 중 잘못된 색상 인식으로 인한 오동작이 완전히 해결되었습니다. <br/><br/>2. 게임의 신뢰성과 사용자 경험이 크게 향상되었습니다."
       }
     ],
     techStack: ["Verilog", "Xilinx Vivado", "I2C", "VGA"],
@@ -245,7 +245,7 @@ export const PROJECTS_DATA: Project[] = [
     period: "2024.11 ~ 2024.12",
     teamSize: "Solo",
     tags: [ProjectCategory.RTL_DESIGN],
-    thumbnail: "p4_pic.jpg",
+    thumbnail: "VGA.jpg",
     summary: "영상 처리를 위한 효율적인 Line Buffer 제어 모듈을 설계하여 메모리 사용량을 최소화하면서 실시간 스트리밍 처리를 구현했습니다. Circular Buffer 기반 FIFO와 Gray Code 포인터 관리를 통해 95% 메모리 절감을 달성했습니다.",
     featured: false,
     

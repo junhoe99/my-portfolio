@@ -195,13 +195,13 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Skills Section */}
+      {/* Tech Stack Section */}
       <section id="skills" className="py-24 bg-gradient-to-br from-primary-50/30 via-white to-blue-50/30 dark:from-[#0f1419] dark:via-[#161f32] dark:to-[#1a2332] reveal-on-scroll relative overflow-hidden">
         {/* Glass layer overlay */}
         <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-3xl"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
            <div className="text-center mb-16">
-             <h2 className="text-3xl font-bold text-gray-900 dark:text-white inline-block border-b-4 border-primary-500 pb-2">Skills</h2>
+             <h2 className="text-3xl font-bold text-gray-900 dark:text-white inline-block border-b-4 border-primary-500 pb-2">Tech Stacks</h2>
              <p className="mt-4 text-gray-600 dark:text-gray-400">Toolbox for Logic Design & Verification</p>
            </div>
 

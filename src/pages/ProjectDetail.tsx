@@ -302,9 +302,14 @@ const ProjectDetail: React.FC = () => {
                         <h5 className="font-bold text-blue-800 dark:text-blue-300 text-lg">해결 방법</h5>
                       </div>
                       <div 
-                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800"
+                        className="text-gray-700 dark:text-gray-300 leading-relaxed ml-4 mb-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800"
                         dangerouslySetInnerHTML={{ __html: renderMarkdownText(step.solution) }}
                       />
+                      {step.solutionImage && (
+                        <div className="ml-4 rounded-xl overflow-hidden border border-blue-200 dark:border-blue-800 shadow-md">
+                          <img src={step.solutionImage} alt="Solution visualization" className="w-full h-auto" />
+                        </div>
+                      )}
                     </div>
 
                     {/* 4. Result */}
