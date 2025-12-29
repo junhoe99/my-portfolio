@@ -48,6 +48,111 @@ export const SKILLS_DATA: SkillCategory[] = [
 
 export const PROJECTS_DATA: Project[] = [
   {
+    id: "ion-battery-ndt",
+    title: "초음파 기반 Ion Battery NDT Diagnosis System",
+    period: "2024.03 ~ 2024.12",
+    teamSize: "Team of 4",
+    tags: [ProjectCategory.RTL_DESIGN],
+    thumbnail: "battery_ndt_pic.jpg",
+    summary: "초음파를 이용하여 배터리의 SoH(State of Health)를 비파괴적으로 진단하는 시스템을 개발했습니다. FPGA 기반 Pulser Control Logic을 설계하여 정밀한 초음파 신호를 생성하고, CDC 환경에서의 메타스테이블리티 문제를 해결했습니다.",
+    featured: true,
+    
+    gallery: [
+      {
+        type: 'image' as const,
+        url: "overview_1.jpg",
+        caption: "System Overview - 배터리 열화 시, SoH(State of Health)의 변화를 비파괴적으로 진단",
+      },
+    ],
+    
+    overview: `📍 열화가 발생한 Li-ion 배터리 내부의 SEI(Solid Electrolyte Interphase) layer 성장을 초음파로 비파괴적으로 측정합니다.
+              📍 HV7321 Pulser Board를 FPGA로 제어하여 안정적인 초음파 펄스 신호를 생성합니다.`,
+    
+    role: [
+      {
+        title: "1. Hypothesis 수립 및 논문 분석",
+        images: [
+          "hypothesis.jpg"
+        ],
+        description: `✅**Hypothesis 수립**: 열화가 발생한 Li-ion 배터리 내부는 그 상태가 변할 것이고, 초음파로 이를 비파괴적으로 확인 가능할 것이다.<br/><br/>✅**논문 분석**: "Theory of SEI Formation in Rechargeable Batteries" 논문을 통해 배터리 열화 시 SEI layer가 성장함을 확인.<br/><br/>✅**초음파의 역할**: SoH가 낮은 배터리의 경우, SEI층이 더욱 성장해서 내부의 밀도가 증가. 초음파는 이에 반응하여 파장이 길어지고, 신호 강도가 약해짐.`,
+      },
+      {
+        title: "2-1-1. HV7321 Pulser Board 선택 및 Datasheet 분석",
+        images: [
+          "hv7321.jpg",
+          "hv_system_block_diagram.jpg",
+          "hv_system_block_diagram_1.jpg"
+        ],
+        description: `✅HV7321 Pulser Board의 Datasheet를 분석 및 전체 시스템 블록 다이어그램 작성`,
+      },
+      {
+        title: "2-1-2. Pin-mapping 및 Block Diagram 설계",
+        images: [
+          "hv_pin_mapping.jpg",
+          "hv_block_diagram.jpg"
+        ],
+        description: `✅FPGA와 Pulser Board 간 Pin-mapping 및 신호 연결 설계<br/><br/>✅전체 시스템 Block Diagram 구성`,
+      },
+      {
+        title: "2-2-1. FSM 설계",
+        images: [
+          "hv_board_fsm.jpg",
+          "hv_fsm_diagram.jpg"
+        ],
+        description: `✅펄스 생성 메커니즘: 각 state에서 counter를 활용해 POS0, NEG0 제어 (5ns 주기로 1씩 감소)`,
+      },
+      {
+        title: "2-2-2. Control Logic 구현",
+        images: [
+          "hv_timing_diagram.jpg"
+        ],
+        description: `**🔹 펄스 생성 메커니즘**<br/>
+• 각 state에서 counter로 POS0, NEG0 제어<br/>
+• pos_counter: Positive 펄스 폭 제어<br/>
+• neg_counter: Negative 펄스 폭 제어<br/>
+• RTZ_counter: Return-to-Zero 시간 제어 (25ns)<br/><br/>
+
+**🔹 신호 전달**<br/>
+• FPGA PORT C 핀을 통해 HV7321 Pulser Board TP로 신호 전달<br/>
+• Pin-mapping을 통한 안정적인 하드웨어 연결<br/><br/>
+
+**🔹 Burst Mode**<br/>
+• burst_counter로 펄스 반복 제어<br/>
+• 0이면 rx 상태로 전환, 아니면 pos 상태로 복귀하여 펄스 반복 생성<br/><br/>
+
+**🔹 타이밍 설정**<br/>
+• Pulse 생성 FSM 클럭: 200MHz (5ns 분해능)<br/>
+• 주파수 범위: 1~수십MHz (counter 값으로 조절)`,
+      },
+      {
+        title: "2-3. Simulation 및 검증",
+        images: [
+          "hv_simulation.jpg",
+          "hv_timing_diagram_2.jpg"
+        ],
+        description: `✅Board Waveform 및 timing diagram과 Simulation 파형을 비교하여 FSM 동작 검증<br/><br/>✅200MHz 클럭 기반의 정밀한 타이밍 제어로 초음파 생성`,
+      }
+    ],
+    results: `✅주요 성과<br/><br/>초음파 기반 배터리 SoH 진단 시스템의 하드웨어 제어 로직을 성공적으로 구현했습니다.<br/><br/>🏆 수상 내역<br/><br/>• 미래형 자동차 캡스톤 디자인 경진대회 우수상 (한국생산제조학회)<br/>• 단국대학교 캡스톤 디자인 경진대회 동상`,
+    resultImages: [
+      "hv_final_system.jpg",
+      "hv_result.gif"
+    ],
+    troubleshooting: [
+      {
+        problem: "간헐적으로 펄스 생성 누락 및 ADC 수집 지연 현상이 발생.",
+        analysis: "1. 클럭이 다른 두 도메인 간 신호 전달 시 샘플링 누락 및 metastability 위험 발생<br/><br/>2. 시스템은 이중 FSM 구조로, 40MHz로 동작하는 Main Controller logic이 전체 시퀀스를 관리하고, 200MHz로 동작하는 Pulser Control이 정밀 펄스를 생성하는 CDC 구조입니다.<br/><br/>3. pulse 생성이 끝난 후, pulser control logic에서 tx_done 신호를 200MHz 기준 1clk 동안 활성화하는데, 이 신호를 main control logic이 제대로 수신해야 rx 모드로 넘어가게 됩니다.<br/><br/>4. 그런데 Main Controller Logic 입장에서는 이 tx_done 신호가 매우 짧은 주기 동안만 발생하는 pulse 형태의 신호이기 때문에 간헐적으로 이 신호를 놓치는 현상이 발생했고, 이로 인해 ADC 수집 동작이 틀어났음을 알 수 있었습니다.",
+        solution: "**1. CDC 환경에서의 sampling 문제 해결:**<br/><br/>• 200MHz, 40MHz 신호는 5배 정도의 주기 차이를 가짐<br/>• 이를 보장하고자 별도의 tx_done_counter를 배치하여, tx_done 신호를 latching함으로써 main control logic에서 tx_done 신호를 더욱 확실하게 sampling할 수 있도록 처리<br/><br/>**2. Metastability 해결:**<br/><br/>• 5clk 동안 stretching 된 tx_done 신호를 2-stage synchronizer + edge detector를 통해 tx_done_posedge 신호로 생성<br/>• 이 신호를 main control logic에서 사용함으로써 rx mode로의 전환에서 문제가 생기지 않도록 해줌",
+        solutionImage: "battery_solution.jpg",
+        result: "1. CDC 환경에서 Pulse Stretching 및 2-stage Synchronizer 기법을 직접하여 샘플링 성공률 100% 달성 및 metastability 제거<br/><br/>2. 통해, 신호 전달 순간 샘플링 시 발생 가능한 metastability. 2-stage synchronizer로 안정화, edge detector로 깨끗한 펄스로 변환<br/><br/>3. 결과적으로 100회 연속 측정에서 100% 성공했으며, 추가 지연만 75ns(전체의 0.15%)로 무시 가능한 수준임을 확인."
+      }
+    ],
+    techStack: ["Verilog", "Xilinx Vivado", "HV7321 Pulser Board", "FSM Design", "CDC"],
+    links: [
+     
+    ]
+  },
+  {
     id: "dual-fpga-pingpong",
     title: "FPGA 기반 RGB Dice Game ",
     period: "2025.06.03 ~ 2025.06.12",

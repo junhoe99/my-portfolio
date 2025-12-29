@@ -104,8 +104,6 @@ const ProjectDetail: React.FC = () => {
               {project.gallery && project.gallery.length > 0 && (
                 <div className="mb-6">
                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-                    <span className="w-1 h-6 bg-primary-500 rounded-full mr-3"></span>
-                    Project Demo Stages
                   </h4>
                   
                   <div className="space-y-6">
@@ -204,13 +202,13 @@ const ProjectDetail: React.FC = () => {
                     {/* Role Images */}
                     {roleItem.images && roleItem.images.length > 0 && (
                       <div className="ml-11">
-                        <div className={`grid gap-4 ${roleItem.images.length === 1 ? 'grid-cols-1' : roleItem.images.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                        <div className="grid gap-4 grid-cols-1">
                           {roleItem.images.map((image: string, imgIdx: number) => (
                             <div key={imgIdx} className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
                               <img 
                                 src={image} 
                                 alt={`${roleItem.title} - Image ${imgIdx + 1}`}
-                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                                className="w-full h-auto object-contain hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                           ))}
@@ -228,9 +226,24 @@ const ProjectDetail: React.FC = () => {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-primary-500 pl-4">
               Results
             </h3>
-            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-              {project.results}
-            </p>
+            <div 
+              className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6"
+              dangerouslySetInnerHTML={{ __html: project.results }}
+            />
+            {/* Result Images */}
+            {project.resultImages && project.resultImages.length > 0 && (
+              <div className="grid gap-4 grid-cols-1">
+                {project.resultImages.map((image: string, imgIdx: number) => (
+                  <div key={imgIdx} className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300">
+                    <img 
+                      src={image} 
+                      alt={`Result - Image ${imgIdx + 1}`}
+                      className="w-full h-auto object-contain hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           {/* Troubleshooting */}
