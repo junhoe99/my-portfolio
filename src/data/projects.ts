@@ -54,7 +54,7 @@ export const PROJECTS_DATA: Project[] = [
     teamSize: "Team of 4",
     tags: [ProjectCategory.RTL_DESIGN],
     thumbnail: "battery_ndt_pic.jpg",
-    summary: "초음파를 이용하여 배터리의 SoH(State of Health)를 비파괴적으로 진단하는 시스템을 개발했습니다. FPGA 기반 Pulser Control Logic을 설계하여 정밀한 초음파 신호를 생성하고, CDC 환경에서의 메타스테이블리티 문제를 해결했습니다.",
+    summary: "초음파를 이용하여 배터리의 SoH(State of Health)를 비파괴적으로 진단하는 시스템을 개발했습니다.",
     featured: true,
     
     gallery: [
