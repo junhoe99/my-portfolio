@@ -143,7 +143,6 @@ export const PROJECTS_DATA: Project[] = [
         problem: "간헐적으로 펄스 생성 누락 및 ADC 수집 지연 현상이 발생.",
         analysis: "1. 클럭이 다른 두 도메인 간 신호 전달 시 샘플링 누락 및 metastability 위험 발생<br/><br/>2. 시스템은 이중 FSM 구조로, 40MHz로 동작하는 Main Controller logic이 전체 시퀀스를 관리하고, 200MHz로 동작하는 Pulser Control이 정밀 펄스를 생성하는 CDC 구조입니다.<br/><br/>3. pulse 생성이 끝난 후, pulser control logic에서 tx_done 신호를 200MHz 기준 1clk 동안 활성화하는데, 이 신호를 main control logic이 제대로 수신해야 rx 모드로 넘어가게 됩니다.<br/><br/>4. 그런데 Main Controller Logic 입장에서는 이 tx_done 신호가 매우 짧은 주기 동안만 발생하는 pulse 형태의 신호이기 때문에 간헐적으로 이 신호를 놓치는 현상이 발생했고, 이로 인해 ADC 수집 동작이 틀어났음을 알 수 있었습니다.",
         solution: "**1. CDC 환경에서의 sampling 문제 해결:**<br/><br/>• 200MHz, 40MHz 신호는 5배 정도의 주기 차이를 가짐<br/>• 이를 보장하고자 별도의 tx_done_counter를 배치하여, tx_done 신호를 latching함으로써 main control logic에서 tx_done 신호를 더욱 확실하게 sampling할 수 있도록 처리<br/><br/>**2. Metastability 해결:**<br/><br/>• 5clk 동안 stretching 된 tx_done 신호를 2-stage synchronizer + edge detector를 통해 tx_done_posedge 신호로 생성<br/>• 이 신호를 main control logic에서 사용함으로써 rx mode로의 전환에서 문제가 생기지 않도록 해줌",
-        solutionImage: "battery_solution.jpg",
         result: "1. CDC 환경에서 Pulse Stretching 및 2-stage Synchronizer 기법을 직접하여 샘플링 성공률 100% 달성 및 metastability 제거<br/><br/>2. 통해, 신호 전달 순간 샘플링 시 발생 가능한 metastability. 2-stage synchronizer로 안정화, edge detector로 깨끗한 펄스로 변환<br/><br/>3. 결과적으로 100회 연속 측정에서 100% 성공했으며, 추가 지연만 75ns(전체의 0.15%)로 무시 가능한 수준임을 확인."
       }
     ],
